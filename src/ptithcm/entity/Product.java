@@ -111,5 +111,13 @@ public class Product {
 		this.image = image;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Product [proId=" + proId + ", name=" + name + ", price=" + price + ", discount=" + discount
+				+ ", category=" + category + ", description=" + description + ", information=" + information
+				+ ", image=" + image + "]";
+	}
+
 	
 }

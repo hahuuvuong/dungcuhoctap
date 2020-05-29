@@ -135,7 +135,8 @@ public class CartController {
 		String username = (String) session.getAttribute("username");
 
 		if (username == null) {
-			return "error";
+			mm.addAttribute("message", "Vùi long đăng nhập để thêm sản phẩm");
+			return "login";
 		}
 
 		return "redirect:/cart.html";
@@ -145,9 +146,11 @@ public class CartController {
 	public String view(ModelMap mm, HttpSession session, @PathVariable("productId") int productId) {
 
 		String username = (String) session.getAttribute("username");
-
+		mm.put("user", new User());
+		mm.put("cart", new Cart());
 		if (username == null) {
-			return "error";
+			mm.addAttribute("message", "Vùi long đăng nhập để thêm sản phẩm");
+			return "login";
 		}
 
 		int id = (int) session.getAttribute("id");
@@ -253,7 +256,6 @@ public class CartController {
 //		session1.saveOrUpdate(z);
 		
 		String url1 = api.API + "CartItem?idCartItem="+productId+"&state=increase";
-		System.out.println(url1);
 		sv.runURL(url1, "PUT");
 		return "redirect:/cart.html";
 	}

@@ -252,22 +252,26 @@ public class ManageController {
 //		Session session2 = factory.getCurrentSession();
 //		String hql2 = "FROM CartItem WHERE cartid.cartId = '" + id + "'";
 //		Query query2 = session2.createQuery(hql2);
-		List<CartItem> listItem = sv.getCartItemOfCardID(id);
-		model.addAttribute("listItem", listItem);
-		
-		float total=0;
-		for (CartItem number : listItem) {
-			float discount=(float)number.getDiscount()/100;
-			System.out.println(discount);
-			float totaldiscount=number.getUnitPrice()*discount;
-			System.out.println(totaldiscount);
-			float money=number.getUnitPrice()-totaldiscount;
-			System.out.println(money);
-			total+=money*number.getQuantity();
-			System.out.println(total);
+	
+
+		List<CartItem> l  = sv.getCartOfUser(h.getUserid(), isPaid);
+		model.addAttribute("listItem", l);
+
+		int cart = 0;
+
+		float money = 0;
+		for (CartItem item : l) {
+			float discount1 = (float) item.getDiscount() / 100;
+
+			float totaldiscount1 = item.getUnitPrice() * discount1;
+
+			float money1 = item.getUnitPrice() - totaldiscount1;
+
+			money += money1 * item.getQuantity();
+			cart = item.getCartid();
+
 		}
-		model.addAttribute("total", total);
-		
+		model.addAttribute("total", money);
 		return "chart";
 	}
 	
@@ -298,7 +302,7 @@ public class ManageController {
 		cart.setBuyDate(date); 
 //		session.save(cart);
 //		session.saveOrUpdate(h);
-		String url = api.API + "Cart?idCart"+cartid+"&isPaid=3";
+		String url = api.API + "Cart?idCart="+cartid+"&isPaid=3";
 		
 		sv.runURL(url, "PUT");
 		sv.addCartUser(cart);

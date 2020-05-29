@@ -114,7 +114,7 @@ public class HomeController {
 		try {
 			
 			
-			String url = api.API+"Product?idTypeCategory="+id;
+			String url = api.API+"Product?idType="+id;
 			List<Product> list = sv.getListProductWithFirstAndMaxResult(start, limit,url);
 			t.commit();
 			return list;
@@ -134,7 +134,7 @@ public class HomeController {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
-			String url = api.API+"Product?idTypeCategory="+id;
+			String url = api.API+"Product?idType="+id;
 			List<Product> list = sv.getListProduct(url);
 			int obj = list.size();
 			t.commit();
@@ -182,8 +182,8 @@ public class HomeController {
 		model.addAttribute("cateId", id);
 		
 		
-		Category category = (Category) session.get(Category.class, id);
-		model.addAttribute("category", category);
+//		Category category = (Category) session.get(Category.class, id);
+//		model.addAttribute("category", category);
 
 		return "dungcuhoctap";
 	}

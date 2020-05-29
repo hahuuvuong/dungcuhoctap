@@ -37,10 +37,12 @@ public class serviceimp implements service {
 		HttpHandler sh = new HttpHandler();
 
 		String jsonStr = sh.makeServiceCall(url);
+
 		if (jsonStr != null) {
 			try {
 				JSONArray jsonArray = new JSONArray(jsonStr);
 				// looping through All Contacts
+				
 				int i = 0;
 				while (i < jsonArray.length()) {
 					JSONObject c = jsonArray.getJSONObject(i++);
@@ -52,11 +54,13 @@ public class serviceimp implements service {
 					String description = c.getString("Description");
 					String information = c.getString("Information");
 					String image = c.getString("Image");
-					System.out.println(description);
+					if(url.equals("http://dungcuhoctapapi.azurewebsites.net/api/Product?idCategory=2&page=1")) {
+						System.out.println(description);
+					}
 					list.add(new Product(proId, name, price, discount, category, description, information, image));
 				}
 			} catch (final JSONException e) {
-
+					System.out.println(e.getMessage());
 			}
 		}
 
@@ -76,8 +80,9 @@ public class serviceimp implements service {
 				// looping through All Contacts
 				int i = 0;
 				int temp = first;
-				while (i < jsonArray.length() && i < max && jsonArray.length() < first) {
+				while (i < jsonArray.length() && i < max ) {
 					JSONObject c = jsonArray.getJSONObject(first++);
+					i++;
 					int proId = c.getInt("Id");
 					String name = c.getString("Name");
 					Float price = c.getFloat("Price");
@@ -86,8 +91,9 @@ public class serviceimp implements service {
 					String description = c.getString("Description");
 					String information = c.getString("Information");
 					String image = c.getString("Image");
-
-					list.add(new Product(proId, name, price, discount, category, description, information, image));
+					Product p = new Product(proId, name, price, discount, category, description, information, image);
+					System.out.println("DEBUG:"+p.toString());
+					list.add(p);
 				}
 			} catch (final JSONException e) {
 
@@ -131,7 +137,6 @@ public class serviceimp implements service {
 		HttpHandler sh = new HttpHandler();
 		String url = api.API + "Product/" + String.valueOf(id);
 		String jsonStr = sh.makeServiceCall(url);
-		System.out.println(jsonStr);
 		if (jsonStr != null) {
 			try {
 
@@ -193,9 +198,7 @@ public class serviceimp implements service {
 		User p = null;
 		HttpHandler sh = new HttpHandler();
 		String url = api.API + "User?userName=" + userName + "&passWord=" + passWord;
-		System.out.println(url);
 		String jsonStr = sh.makeServiceCall(url);
-		System.out.println(jsonStr);
 		if (jsonStr != null) {
 			try {
 				JSONObject c = new JSONObject(jsonStr);
@@ -225,7 +228,6 @@ public class serviceimp implements service {
 		HttpHandler sh = new HttpHandler();
 		String url = api.API + "User?userName=" + userName;
 		String jsonStr = sh.makeServiceCall(url);
-		System.out.println(jsonStr);
 		if (jsonStr != null) {
 			try {
 				JSONObject c = new JSONObject(jsonStr);
@@ -322,7 +324,6 @@ public class serviceimp implements service {
 					sb.append(line + "\n");
 				}
 				br.close();
-				System.out.println(sb.toString());
 			} else {
 				BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream(), "utf-8"));
 				String line = null;
@@ -354,7 +355,6 @@ public class serviceimp implements service {
 				JSONObject c = arr.getJSONObject(0);
 
 				Integer Id = c.getInt("Id");
-				System.out.print(Id);
 				Cart ct = new Cart();
 				ct.setCartId(Id);
 				return ct;
@@ -732,9 +732,7 @@ public class serviceimp implements service {
 			SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 			HttpHandler sh = new HttpHandler();
 			String url = api.API + "Cart?cartID=" + id;
-			System.out.print(url);
 			String jsonStr = sh.makeServiceCall(url);
-			System.out.print(jsonStr);
 			if (jsonStr != null) {
 				try {
 					JSONArray array = new JSONArray(jsonStr);
@@ -759,7 +757,9 @@ public class serviceimp implements service {
 
 		HttpHandler sh = new HttpHandler();
 		String url = api.API + "CartItem?cartID=" + id;
+		System.out.print(url);
 		String jsonStr = sh.makeServiceCall(url);
+		System.out.print(jsonStr);
 		if (jsonStr != null) {
 			try {
 				JSONArray jsonArray = new JSONArray(jsonStr);

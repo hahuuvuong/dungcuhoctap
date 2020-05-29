@@ -163,7 +163,6 @@
 								<table id="mytable" class="table table-bordred table-striped">
 									<thead>
 										<th>Tên Sản Phẩm</th>
-										<th>Hình Ảnh</th>
 										<th>Giá</th>
 										<th>Số Lượng</th>
 										<th>Thành Tiền</th>
@@ -172,14 +171,13 @@
 									<tbody>
 										<c:forEach var="item" items="${listItem}">
 											<tr>
-												<td>${item.proid.name}</td>
-												<td><image width="100px" src="${item.proid.image}" /></td>
-												<td>${item.proid.price-((item.proid.discount/100)*item.proid.price)}</td>
+												<td>${item.name}</td>
+												<td>${item.unitPrice-((item.discount/100)*item.unitPrice)}</td>
 												<td><input
 													style="display: inline; width: 50%; height: 51px; margin-top: 0px"
 													min="0" class="form-control text-center"
 													value="${item.quantity}" /></td>
-												<td>${(item.proid.price-((item.proid.discount/100)*item.proid.price))*item.quantity}</td>
+												<td>${(item.unitPrice-((item.discount/100)*item.unitPrice))*item.quantity}</td>
 
 											</tr>
 										</c:forEach>
